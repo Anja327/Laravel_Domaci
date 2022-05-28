@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutfController;
 use App\Http\Controllers\TvController;
 use App\Http\Controllers\VdtController;
 use Illuminate\Http\Request;
@@ -16,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('televizija', TvController::class);
-Route::resource('voditelj', VdtController::class);
+Route::post('register', [AutfController::class, 'register']);
+Route::post('login', [AutfController::class, 'login']);
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('televizija', TvController::class);
+    Route::resource('voditelj', VdtController::class);
+    Route::post('logout', [AutfController::class, 'logout']);
 });
