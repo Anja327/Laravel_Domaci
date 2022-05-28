@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VdtResurs;
 use App\Models\Voditelj;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class VdtController extends Controller
      */
     public function index()
     {
-        //
+        $vdt = Voditelj::all();
+        return VdtResurs::collection($vdt);
     }
 
     /**
@@ -80,6 +82,7 @@ class VdtController extends Controller
      */
     public function destroy(Voditelj $voditelj)
     {
-        //
+        $voditelj->delete();
+        return response()->json('Voditelj uspešno obrisan!');
     }
 }

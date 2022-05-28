@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TvResurs;
 use App\Models\Televizija;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TvController extends Controller
 {
@@ -14,7 +16,8 @@ class TvController extends Controller
      */
     public function index()
     {
-        //
+        $tv = Televizija::all();
+        return TvResurs::collection($tv);
     }
 
     /**
@@ -35,7 +38,23 @@ class TvController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'ime' => 'required|string',
+            'grad' => 'required|string',
+            'direktor' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['Greška!', $validator->errors()]);
+        }
+
+        Televizija::create([
+            'ime' => $request->ime,
+            'grad' => $request->grad,
+            'direktor' => $request->direktor,
+        ]);
+
+        return response()->json('Televizija je uneta u bazu podataka!');
     }
 
     /**
@@ -46,7 +65,7 @@ class TvController extends Controller
      */
     public function show(Televizija $televizija)
     {
-        //
+        return new TvResurs($televizija);
     }
 
     /**
@@ -80,6 +99,7 @@ class TvController extends Controller
      */
     public function destroy(Televizija $televizija)
     {
-        //
+        $televizija->delete();
+        return response()->json('Televizija uspešno obrisana!');
     }
 }
