@@ -10,6 +10,13 @@ class Televizija extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ime',
+        'grad',
+        'direktor',
+    ];
+
+
     public function emisije()
     {
         return $this->hasMany(Emisija::class);

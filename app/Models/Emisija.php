@@ -11,6 +11,14 @@ class Emisija extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'naziv',
+        'trajanje',
+        'dan',
+        'televizija_id',
+        'voditelj_id'
+    ];
+
     public function televizija()
     {
         return $this->belongsTo(Televizija::class);

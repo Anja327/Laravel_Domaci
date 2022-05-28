@@ -10,6 +10,13 @@ class Voditelj extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ime',
+        'prezime',
+        'plata',
+        'instagram',
+    ];
+
     public function emisije()
     {
         return $this->hasMany(Emisija::class);
